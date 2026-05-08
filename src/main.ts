@@ -7,12 +7,14 @@ import { DataSource } from 'typeorm';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // CORS
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
+  // Validation Pipe
   app.useGlobalPipes(new ValidationPipe());
 
   // Swagger
@@ -27,9 +29,10 @@ async function bootstrap() {
 
   SwaggerModule.setup('swagger', app, document);
 
+  // Timezone
   process.env.TZ = '-03:00';
 
-  // TESTA conexão com PostgreSQL
+  // Verifica conexão PostgreSQL
   const dataSource = app.get(DataSource);
 
   if (dataSource.isInitialized) {
@@ -38,10 +41,13 @@ async function bootstrap() {
     console.log('❌ Erro ao conectar no PostgreSQL!');
   }
 
-  await app.listen(process.env.PORT  4000);
+  // Inicia servidor
+  const port = process.env.PORT || 4000;
 
-  console.log(`🚀 Servidor rodando na porta ${process.env.PORT 
- 4000}`);
+  await app.listen(port);
+
+  console.log(🚀 Servidor rodando na porta ${port});
+  console.log(📚 Swagger disponível em /swagger);
 }
 
 bootstrap();
