@@ -2,30 +2,24 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DataSource } from 'typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Configuração do CORS
   app.enableCors({
-    origin: '*', // Em produção, coloque a URL do front-end
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
-  // Validation Pipe
   app.useGlobalPipes(new ValidationPipe());
 
-  // Configuração do Swagger
+  // Swagger
   const config = new DocumentBuilder()
     .setTitle('Blog Pessoal')
     .setDescription('Projeto Blog Pessoal')
     .setVersion('1.0')
-    .setContact(
-      'Seu Nome',
-      'http://www.seugithub.com/',
-      'seuemail@email.com',
-    )
     .addBearerAuth()
     .build();
 
@@ -35,8 +29,19 @@ async function bootstrap() {
 
   process.env.TZ = '-03:00';
 
-  // Porta do Render
-  await app.listen(process.env.PORT || 4000);
+  // TESTA conexão com PostgreSQL
+  const dataSource = app.get(DataSource);
+
+  if (dataSource.isInitialized) {
+    console.log('🐘 PostgreSQL conectado com sucesso!');
+  } else {
+    console.log('❌ Erro ao conectar no PostgreSQL!');
+  }
+
+  await app.listen(process.env.PORT  4000);
+
+  console.log(`🚀 Servidor rodando na porta ${process.env.PORT 
+ 4000}`);
 }
 
 bootstrap();
