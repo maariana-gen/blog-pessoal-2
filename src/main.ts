@@ -1,26 +1,18 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('Blog Pessoal')
-    .setDescription('Projeto Blog Pessoal')
-    .setContact("O seu Nome", "http://www.seugithub.com", "seuemail@email.com")
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/swagger', app, document);
-
-  process.env.TZ = '-03:00';
+  // Configuração do CORS
+  app.enableCors({
+    origin: '', // Em produção, você pode substituir '' pela URL do seu front no Render
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
-  await app.listen(process.env.PORT || 4000);
+  await app.listen(process.env.PORT || 4000); // Importante para o Render usar a porta correta
 }
 bootstrap();
