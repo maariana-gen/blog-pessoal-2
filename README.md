@@ -76,7 +76,7 @@ src/
 ## Clone o repositório
 
 ```bash
-git clone https://github.com/maariana-gen/blog-pessoal-2.git
+git clone https://github.com/maariana-gen/Blog-Pessoal-API.git
 ```
 
 ---
@@ -84,7 +84,7 @@ git clone https://github.com/maariana-gen/blog-pessoal-2.git
 ## Acesse a pasta
 
 ```bash
-cd blog-pessoal-2
+cd Blog-Pessoal-API
 ```
 
 ---
