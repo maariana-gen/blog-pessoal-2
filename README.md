@@ -76,7 +76,7 @@ src/
 ## Clone o repositório
 
 ```bash
-git clone https://github.com/maariana-gen/Blog-Pessoal-API.git
+git clone https://github.com/maariana-gen/blog-pessoal-api.git
 ```
 
 ---
